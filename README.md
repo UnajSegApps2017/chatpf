@@ -1,37 +1,17 @@
-## Welcome to GitHub Pages
+Se demuestra que es posible la integración de herramientas de cifrado 
+estándar en desarrollos de aplicaciones web utilizando las herramientas 
+del framework Yii2 con arquitectura de software Modelo - Vista - 
+Controlador. El modelo de capas de seguridad es implementado en 
+seguridad física de la gran mayoría de las organizaciones.
+Un desarrollo de software que establece correctamente la delegación de 
+las acciones a los servicios ya implementados, es más confiable y seguro 
+que un sistema desarrollado completamente con fuentes propias que no se 
+conocen los niveles de madurez de los procesos.
+Se logra cumplir con la confidencialidad de los mensajes del sistema 
+Chatpf. En futuras versiones del sistema se puede perseguir el objetivo 
+de la integridad de los mensajes. Éste objetivo se cumpliría cifrando el 
+encabezado del mensaje en la tabla de mensajes. Si ésto ocurre, se 
+necesitaría generar un gestor de nuevos mensajes que descifren el 
+encabezado de cada nueva inserción de la tabla de mensajes, para 
+reconocer si el mensaje es destinado al usuario olvidado.
 
-You can use the [editor on GitHub](https://github.com/UnajSegApps2017/chatpf/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/UnajSegApps2017/chatpf/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
