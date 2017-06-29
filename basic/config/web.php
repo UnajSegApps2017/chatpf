@@ -31,8 +31,8 @@ $config = [
 	    'transport' => [
 		'class' => 'Swift_SmtpTransport',
 		'host' => 'smtp.gmail.com',
-		'username' => 'chatpfunaj@gmail.com',
-		'password' => '700r@chatpf2017',
+		'username' => 'una_cuenta_gmail@gmail.com',
+		'password' => 'un password de la cuenta gmail',
 		'port' => '587',
 		'encryption'=> 'tls'
 		],
