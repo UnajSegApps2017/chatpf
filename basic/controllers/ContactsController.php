@@ -6,7 +6,6 @@ use Yii;
 use app\models\Contacts;
 use app\models\ContactsSearch;
 use app\models\Userchat;
-use app\models\Filemessage;
 use app\models\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
