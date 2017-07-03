@@ -115,7 +115,6 @@ class SiteController extends Controller {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
-
             return $this->refresh();
         }
         return $this->render('contact', [
@@ -125,16 +124,13 @@ class SiteController extends Controller {
 
     public function actionConfirm() {
         if (Yii::$app->request->get()) {
-            $id = Html::encode($_GET["id"]);
-            $authKey = $_GET["authKey"];
+            $id = Html::encode($_GET["id"]);$authKey = $_GET["authKey"];
             if ((int) $id) {
-                $usr = Userchat::find()
-                        ->where("idUser=:idUser", [":idUser" => $id])
-                        ->andWhere("authkeyUser=:authkeyUser", [":authkeyUser" => $authKey]);
+                $usr = Userchat::find()->where("idUser=:idUser", [":idUser" => $id])
+                    ->andWhere("authkeyUser=:authkeyUser", [":authkeyUser" => $authKey]);
                 if ($usr->count() == 1) {
-                    $activar = Userchat:: find()
-                                    ->where("idUser=:idUser", [":idUser" => $id])
-                                    ->andWhere("authkeyUser=:authkeyUser", [":authkeyUser" => $authKey])->one();
+                    $activar = Userchat:: find()->where("idUser=:idUser", [":idUser" => $id])
+                        ->andWhere("authkeyUser=:authkeyUser", [":authkeyUser" => $authKey])->one();
                     $activar->activUser = 1;
                     if ($activar->update() !== false) {
                         echo "Registro ok en chatpf, redireccionando..";
@@ -143,10 +139,8 @@ class SiteController extends Controller {
                         echo "Registro fallido en chatpf, redireccionando..";
                         echo "<meta http-equiv='refresh' content='8; " . Url::toRoute("site/login") . "'>";
                     }
-                } else
-                    return $this->redirect(["site/login"]);
-            } else
-                return $this->redirect(["site/login"]);
+                }
+            } else return $this->redirect(["site/login"]);
         }
     }
 
