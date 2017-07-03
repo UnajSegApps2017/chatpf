@@ -165,38 +165,10 @@ class SiteController extends Controller {
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 $table = new Userchat();
-                $table->loadDefaultValues();
-                $table->nameUser = $model->username;
-                $table->mailUser = $model->email;
-                $table->passwordUser = crypt($model->password, Yii::$app->params["salt"]);
-                $table->authkeyUser = RandKey::randKey("abcdef0123456789", 200);
-                $table->publicKeyUser = $model->publicKey;
+                $this->fillModelUserchat($table, $model);
                 if ($table->insert()) {
-                    $user = Userchat::find()->Where("authkeyUser=:authkeyUser", [":authkeyUser" => $table->authkeyUser])->one();
-                    $id = urlencode($user->idUser);
-                    $authKey = urlencode($user->authkeyUser);
-                    $subject = "Confirmar registro";
-                    $body = "<h1>Haga click en el siguiente enlace para finalizar tu registro</h1>";
-                    $link = Intranet::getUrlHead() . "/basic/web/index.php?r=site/confirm&id=" . $id . "&authKey=" . $authKey;
-                    $body .= "<a href='" . $link . "'>Confirmar</a>";
-                    if (Yii::$app->params["adminEmail"] != 'email@gmail.com') {
-                        Yii::$app->mailer->compose()
-                                ->setTo($user->mailUser)
-                                ->setFrom([Yii::$app->params["adminEmail"] => Yii::$app->params["title"]])
-                                ->setSubject($subject)
-                                ->setHtmlBody($body)
-                                ->send();
-                        $msg = "Enhorabuena, ahora sólo falta que confirmes tu registro en tu cuenta de correo ";
-                    } else {
-                        $msg = "Confirmación alternativa " . Mailto::getUrlMailto(
-                                        $user->mailUser, $subject, "", "", "Haga click en el siguiente enlace para finalizar tu registro", $link, "\nClick aquí para reenviar confirmación vía mailto:"
-                        );
-                    }
-                    $model->username = null;
-                    $model->email = null;
-                    $model->password = null;
-                    $model->password_repeat = null;
-                    $model->publicKey = null;
+                    $msg = $this->sendConfirm($table);
+                    $this->nullModelRegister($model);
                 } else {
                     $msg = "Ha ocurrido un error al llevar a cabo tu  registro\n";
                 }
@@ -219,6 +191,43 @@ class SiteController extends Controller {
             }
         }
         return $this->render('upload', ['model' => $model]);
+    }
+
+    private function nullModelRegister($model){
+        $model->username = null;
+        $model->email = null;
+        $model->password = null;
+        $model->password_repeat = null;
+        $model->publicKey = null;
+    }
+
+    private function fillModelUserchat($src,$src2){
+        $src->loadDefaultValues();
+        $src->nameUser = $src2->username;
+        $src->mailUser = $src2->email;
+        $src->passwordUser = crypt($src2->password, Yii::$app->params["salt"]);
+        $src->authkeyUser = RandKey::randKey("abcdef0123456789", 200);
+        $src->publicKeyUser = $src2->publicKey;
+    }
+
+    private function sendConfirm($table1){
+        $user1 = Userchat::find()->Where("authkeyUser=:authkeyUser", [":authkeyUser" => $table1->authkeyUser])->one();
+        $id = urlencode($user1->idUser);
+        $authKey = urlencode($user1->authkeyUser);
+        $subject = "Confirmar registro";
+        $body = "<h1>Haga click en el siguiente enlace para finalizar tu registro</h1>";
+        $link = Intranet::getUrlHead() . "/basic/web/index.php?r=site/confirm&id=" . $id . "&authKey=" . $authKey;
+        $body .= "<a href='" . $link . "'>Confirmar</a>";
+        if (Yii::$app->params["adminEmail"] != 'email@gmail.com') {
+            Yii::$app->mailer->compose()->setTo($user1->mailUser)
+                    ->setFrom([Yii::$app->params["adminEmail"] => Yii::$app->params["title"]])
+                    ->setSubject($subject)->setHtmlBody($body)->send();
+            return "Enhorabuena, ahora sólo falta que confirmes tu registro en tu cuenta de correo ";
+        } else {
+            return "Confirmación alternativa " . Mailto::getUrlMailto(
+            $user1->mailUser, $subject, "", "", "Haga click en el siguiente enlace para finalizar tu registro", $link, "\nClick aquí para reenviar confirmación vía mailto:"
+            );
+        }
     }
 
 }
