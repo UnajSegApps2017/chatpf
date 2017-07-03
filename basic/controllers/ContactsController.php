@@ -7,11 +7,9 @@ use app\models\Contacts;
 use app\models\ContactsSearch;
 use app\models\Userchat;
 use app\models\Filemessage;
-use app\models\Message;
 use app\models\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -52,7 +50,6 @@ class ContactsController extends Controller {
     public function actionIndex() {
         $searchModel = new ContactsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
@@ -79,9 +76,7 @@ class ContactsController extends Controller {
     public function actionCreate() {
         $model = new Contacts();
         $model->idUser = Yii::$app->user->identity->idUser;
-//        $model->idUser = $this->id;
         $subModel = new Userchat();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'idUser' => $model->idUser, 'idContacted' => $model->idContacted]);
         } else {
@@ -101,7 +96,6 @@ class ContactsController extends Controller {
      */
     public function actionUpdate($idUser, $idContacted) {
         $model = $this->findModel($idUser, $idContacted);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'idUser' => $model->idUser, 'idContacted' => $model->idContacted]);
         } else {
@@ -120,7 +114,6 @@ class ContactsController extends Controller {
      */
     public function actionDelete($idUser, $idContacted) {
         $this->findModel($idUser, $idContacted)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -146,38 +139,10 @@ class ContactsController extends Controller {
                 }
             }
         }
-
         return $this->render('nuevomensaje', [
                     'model' => $model,
         ]);
     }
-
-//        
-//        if ($modelNew->load(Yii::$app->request->post()) && $modelNew->save()) {
-//            return $this->redirect(['filemessage/view', 'id' => $modelNew->idMessage]);
-//        } else if (!$modelNew->uploadAudioFile()){
-//            $audio=$modelNew->setAudiofile( UploadedFile::getInstanceByName('audiofile'));
-//            $usr=Userchat::find()
-//                    ->where("idUser=:idUser",[":idUser"=> $idContacted ])->one();
-//            $pkUser=$usr->publicKeyUser;
-//            
-//            $gpg = new \GPG();
-//            $pk=new \GPG_Public_Key($pkUser);
-//            $encriptado=$gpg->encrypt($pk, base64_encode($audio));
-//            $table = new Message();
-//            $table->loadDefaultValues();
-//            $table->headderMessage='algocabecera';
-//            $table->messageContent=$encriptado;
-//            $table->messagedelievered=$idUser;
-//            if ($table->insert()){
-//                
-//            }
-//            return $this->render('nuevomensaje', [
-//                'modelNew' => $modelNew,
-//            ]);
-//        } else {
-//            return $this->goBack();
-//        }
 
     /**
      * Finds the Contacts model based on its primary key value.
@@ -194,5 +159,4 @@ class ContactsController extends Controller {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

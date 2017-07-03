@@ -50,7 +50,6 @@ class MessageController extends Controller
     {
         $searchModel = new MessageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -77,7 +76,6 @@ class MessageController extends Controller
     public function actionCreate()
     {
         $model = new Message();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idMessage]);
         } else {
@@ -96,7 +94,6 @@ class MessageController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idMessage]);
         } else {
@@ -115,7 +112,6 @@ class MessageController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

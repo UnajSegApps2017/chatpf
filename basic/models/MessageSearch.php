@@ -42,7 +42,6 @@ class MessageSearch extends Message
     public function search($params)
     {
         $query = Message::find();
-
         // add conditions that should always apply here
         //$query->andFilterWhere(['idUser' => Yii::$app->user->identity->idUser]);
         $dataProvider = new ActiveDataProvider([
